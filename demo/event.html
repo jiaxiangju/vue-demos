@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8"><meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">
+		<title>vue基础----事件处理</title>
+		<script src="https://unpkg.com/vue"></script>
+	</head>
+	<body>
+		<div id="event-div">
+			<p>
+				<button v-on:click.once="counter+=1">增加</button>
+				<p>this button is clicked: {{ counter }} times</p>
+			</p>
+			<hr/>
+			<p v-on:click.self="pClick">
+				<button v-on:click="say">Say 厚</button>
+				<button v-on:click="say($event, '厚脸皮')">Say 厚</button>
+			</p>
+			<hr/>
+			<p>
+				<span>事件修饰符</span>
+				<!-- 阻止单击事件冒泡 -->
+				<a v-on:click.stop="say"></a>
+				<!-- 提交事件不再重载页面 -->
+				<form v-on:submit.prevent="say"></form>
+				<!-- 修饰符可以串联 -->
+				<a v-on:click.stop.prevent="say"></a>
+				<!-- 只有修饰符 -->
+				<form v-on:submit.prevent></form>
+				<!-- 添加事件侦听器时使用事件捕获模式 -->
+				<div v-on:click.capture="say">捕获</div>
+				<!-- 只当事件在该元素本身 (比如不是子元素) 触发时触发回调 -->
+				<div v-on:click.self="say">本身</div>
+			</p>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var eventVM = new Vue({
+			el: '#event-div',
+			data: {
+				counter: 2
+			},
+			methods: {
+				say: function (event, msg) {
+					alert(msg || 'hou lian pi');
+//					alert(event.target.tagName);
+				},
+				pClick: function () {
+					alert('clicked P');
+				}
+			}
+		});
+	</script>
+</html>

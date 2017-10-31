@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">
+		<title>vue基础----列表和条件渲染</title>
+		<script src="https://unpkg.com/vue"></script>
+	</head>
+	<body>
+		<div id="render-div">
+			<p>
+				<ul>
+					<li v-for="(item, index) in items" :key="item.id">
+						{{parentMessage}} - {{index}} - {{item.message}}
+					</li>
+				</ul>
+			</p>
+			<hr/>
+			<p>
+				<div v-for="(value, key, index) in obj">
+					<template v-if="index === 0">
+						{{index}}. {{key}}: {{reversedFirstName}}
+					</template>
+					<template v-else>
+						{{index}}. {{key}}: {{value}}
+					</template>
+				</div>
+			</p>
+			<hr/>
+			<ul v-if="todos.length">
+				<li v-for="todo in todos">
+					{{ todo }}
+				</li>
+			</ul>
+			<p v-else>No todos left!</p>
+			<hr/>
+			<template v-if="loginType === 'username'">
+				<label for="">Username</label>
+				<input type="text" placeholder="Enter your username" key="username-input"/>
+			</template>
+			<template v-else>
+				<label for="">Email</label>
+				<input type="text" placeholder="Enter your email address" key="email-input"/>
+			</template>
+			<button v-on:click="toggle">Toggle login type</button>
+
+		</div>
+	</body>
+	<script type="text/javascript">
+		var renderVM = new Vue({
+			el: '#render-div',
+			data: {
+				parentMessage: 'parent',
+				items :[
+					{id: 'id1',message:'Foo'},
+					{id: 'id2',message:'Bar'}
+				],
+				obj:{
+					firstName: 'John',
+					lastName: 'Doe',
+					age: 30
+				},
+				todos: [
+					'a','b','c'
+				],
+				loginType: 'username'
+			},
+			methods: {
+				changeData: function () {
+					this.obj = Object.assign({}, this.obj, {
+						favoriteColor: "Green"
+					});
+				},
+				toggle: function () {
+					this.loginType = this.loginType === 'username' ? 'email' : 'username';
+				}
+			},
+			computed: {
+				reversedFirstName : function () {
+					return this.obj.firstName.split('').reverse().join('');
+				}
+			},
+			watch: {
+				obj: function (val) {
+					val.fullName = val.firstName + ' ' + val.lastName;
+				}
+			}
+		});
+		Vue.set(renderVM.items, 1, {message: "NEW　Ｔｏｗ"});
+		Vue.set(renderVM.obj, 'sex', '男');
+		renderVM.changeData();
+	</script>
+</html>
