@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">
+		<title>vue基础----vue自定义指令</title>
+		<script src="https://unpkg.com/vue"></script>
+	</head>
+	<body>
+		<!-- vue.js用Vue.directive(id, definition) 方法注册一个全局自定义指令，它接受两个参数：指令ID与定义对象。也可以用组建的directives选项注册一个局部自定义指令。-->
+		<!-- 指令实力属性：
+			el ==== 指令绑定元素
+			vm ==== 拥有该指令的上下文ViewModel。
+			expression ==== 指令的表达式，不包括参数和过滤器。
+			arg ==== 指令的参数
+			name ==== 指令的名字，不包含前缀。
+			modifiers ==== 一个对象，包含指令的修饰符。
+			descriptor ==== 一个对象，包含指令的解析结果。
+		--->
+		<div id="example" @click="up">
+			<div id="demo" v-demo:hello.a.b="msg">{{msg}}</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		//未生效
+		/*Vue.directive('demo', {
+			bind: function () {
+				//准备工作
+				//例如，添加事件处理器或只需要运行一次的高耗任务
+				console.log('demo bound!');
+			},
+			update: function (value) {
+				//值更新时的工作
+				//也会以初始值为参数调用一次
+				debugger;
+				this.el.innerHTML = 'name -' + this.name + '<br>'+
+								'expression -' + this.expression + '<br>'+
+								'argument - ' + this.arg + '<br>'+
+								'modifiers -' + JSON.stringify(this.modifiers) + '<br>'+
+								'value -' + JSON.stringify(value) + '<br>'+
+								'vm-msg' + this.vm.msg
+			},
+			unbind: function () {
+				//清理工作
+				//例如，删除bind()添加的事件监听器
+			}
+		});*/
+		Vue.directive('demo', function ($el, directive) {
+			console.log(directive.value.color, directive.value.text);
+			$el.innerHTML = 'name -' + directive.name + '<br>'+
+					'expression -' + directive.expression + '<br>'+
+					'argument - ' + directive.arg + '<br>'+
+					'modifiers -' + JSON.stringify(directive.modifiers) + '<br>'+
+					'value -' + JSON.stringify(directive.value) + '<br>'
+//					'vm-msg' + this.vm.msg
+		});
+		var directiveVM = new Vue({
+			el: '#example',
+			data: {
+				msg: 'hello directive'
+			},
+			methods: {
+				up: function () {
+					console.log('click');
+				}
+			}
+		});
+	</script>
+</html>
