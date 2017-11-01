@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8"><meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">
+		<title>vue基础----vue计算属性</title>
+		<script src="https://unpkg.com/vue"></script>
+	</head>
+	<body>
+		<div id="example">
+			<p>
+				计算属性依赖的属性发生变化时才会重新执行getter
+				有时计算属性依赖实时的非观察属性
+				需要将计算属性的cache设置为false来关闭缓存
+				<br>
+				<h3>{{computedWelcome}}</h3>
+			</p>
+			<hr>
+			<p>
+				<input type="text" v-model="firstName" />
+				<input type="text" v-model="lastName" />
+				<br>
+				firstName={{firstName}}
+				<br>
+				lastName={{lastName}}
+				<br>
+				fullName={{fullName}}
+			</p>
+			<hr>
+			<p>
+				当包含计算属性的节点被移除并且模版中其他地方没有再引用该属性时，对应的计算属性的getter不会执行
+				<button @click="toggleShow">Toggle Show Total Price</button>
+				<!--<p>{{totalPrice}}</p>-->
+				<p v-if="showTotal">Total Price = {{totalPrice}}</p>
+			</p>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#example',
+			data: {
+				firstName: "Jia",
+				lastName: "Xiangju",
+				welcome: "welcome to vue demos --- cumputed",
+				showTotal: true,
+				basePrice: 10,
+				items: [
+					{number: 0, text: "zero"},
+					{number: 1, text: "one"}
+				]
+			},
+			computed: {
+				fullName: {
+					get: function () {
+						return this.firstName + ' ' + this.lastName;
+					},
+					set:function (newName) {
+						var names = newName.split(' ');
+						this.firstName = names[0];
+						this.lastName = names[1];
+					}
+				},
+				computedWelcome: {
+					cache: false,
+					get: function() {
+						return new Date() + ' ' + this.welcome;
+					}
+				},
+				totalPrice: function () {
+					console.log('执行----', this.showTotal);
+					return this.basePrice + 1;
+				}
+			},
+			methods: {
+				toggleShow: function () {
+					this.basePrice += 1;
+					this.showTotal = !this.showTotal;
+				}
+			}
+		});
+		setTimeout(function () {
+			vm.$set(vm, "fullName" ,'Join Lili');
+			setTimeout(function () {
+				Vue.set(vm, "fullName" ,'加 香菊');
+			}, 3 * 1000);
+		}, 5 * 1000);
+	</script>
+</html>
