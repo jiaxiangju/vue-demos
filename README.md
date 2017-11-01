@@ -1,2 +1,2 @@
 # vue-demos
-Vue.js入门的一些简单demo
+Vue.js入门的一些demo
