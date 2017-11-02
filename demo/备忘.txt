@@ -3,3 +3,4 @@ form.html-----------------------表单控件数据绑定
 event.html----------------------事件处理
 directive.html------------------vue自定义指令
 computed.html-------------------计算属性
+classBind&styleBind.html--------Class与Style绑定

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8"><meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">
+		<title>vue基础----Class与Style绑定</title>
+		<script src="https://unpkg.com/vue"></script>
+		<style type="text/css">
+			.orange{
+				background: orange;
+				color: white;
+				font-weight: bold;
+			}
+			.red{
+				background: red;
+				color: white;
+				font-weight: bold;
+			}
+			.blue{
+				background: blue;
+				color: white;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="example">
+			<p class="class1" v-bind:class="{'orange': isOrange, 'red': isRed}">
+				test one
+			</p>
+			<hr>
+			<p v-bind:class="twofe">
+				test two
+			</p>
+			<hr>
+			<p v-bind:class="threefe">
+				test three
+			</p>
+			<p v-bind:style="sy">
+				test four
+			</p>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#example',
+			data: {
+				isOrange: true,
+				isRed: false,
+				age: 4,
+				sy: {
+					background: '#ff3366'
+				},
+				twofe: {
+					'red' : true,
+					'orange' : false
+				}
+			},
+			computed: {
+				threefe() {
+					return {
+						'blue' : this.age > 3 ? true : false
+					}
+				},
+				computedWelcome: {
+					cache: false,
+					get: function() {
+						return new Date() + ' ' + this.welcome;
+					}
+				},
+				totalPrice: function () {
+					console.log('执行----', this.showTotal);
+					return this.basePrice + 1;
+				}
+			},
+			methods: {
+				toggleShow: function () {
+					this.basePrice += 1;
+					this.showTotal = !this.showTotal;
+				}
+			}
+		});
+		setTimeout(function () {
+			vm.$set(vm, "fullName" ,'Join Lili');
+			setTimeout(function () {
+				Vue.set(vm, "fullName" ,'加 香菊');
+			}, 3 * 1000);
+		}, 5 * 1000);
+	</script>
+</html>
