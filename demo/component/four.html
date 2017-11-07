@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<title>vue基础----组件数据传递--slot</title>
+		<script src="https://unpkg.com/vue"></script>
+	</head>
+	<body>
+
+		<div id="example">
+			<h1>this is my parent component</h1>
+			<my-component>
+				<p>this is some</p>
+				<p>this is some more</p>
+				<p slot="one">this is one p</p>
+			</my-component>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+
+		
+		Vue.component('my-component', {
+			template: ['<div>',
+						'<h1>this is my child comopnent</h1>',
+						'<slot>我是多余的</slot>',
+						'<slot name="one">我是one</slot>',
+						'<slot name="two">我是多余two</slot>',
+					'</div>'].join('')
+		});
+
+		var parent = new Vue({
+			el: "#example"
+		});
+
+	</script>
+</html>

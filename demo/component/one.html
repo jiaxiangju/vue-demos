@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<title>vue基础----组件注册</title>
+		<script src="https://unpkg.com/vue"></script>
+	</head>
+	<body>
+		<div id="example">
+			<my-component></my-component>
+			<my-component1></my-component1>
+			<hr/>
+			<local-component></local-component>
+		</div>
+	</body>
+	<script type="text/javascript">
+
+		//Function 可以是用Vue.extend()创建的一个组件构造器
+		var MyComponent = Vue.extend({
+			//选项
+			template: '<div>A cutom component 1</div>'
+		});
+
+		//"my-component"是组件的名称 MyComponent是组件的构造函数，可以是Function，也可以是Object
+		Vue.component("my-component", MyComponent);
+
+
+		//Object传入选项对象，vue自动调用extend
+		Vue.component("my-component1", {
+			template: '<div>A custom component 2</div>'
+		});
+
+		
+
+
+
+		//局部注册
+		var Child = Vue.extend({
+			template: '<div>i am Child 2</div>'
+		});
+		var Parent = Vue.extend({
+			template: '<div><p>i am parent</p><br/><i-child></i-child><child></child></div>',
+			components: {
+				'child': {
+					template : '<p>i am Child</p>'
+				},
+				'i-child': Child
+			}
+		});
+
+
+		new Vue({
+			el: "#example",
+			components: {
+				'local-component': Parent
+			}
+		});
+
+	</script>
+</html>

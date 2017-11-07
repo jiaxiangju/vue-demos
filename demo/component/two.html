@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<title>vue基础----组件数据传递--props</title>
+		<script src="https://unpkg.com/vue"></script>
+	</head>
+	<body>
+		<div id="example">
+			<my-component></my-component>
+			<my-component1></my-component1>
+			<hr/>
+			<local-component></local-component>
+
+
+			<input type="text" v-model="info.name">
+			<b-child v-bind:msg.once="info"></b-child>
+		</div>
+	</body>
+	<script type="text/javascript">
+
+		
+		var Child = Vue.extend({
+			props: ['msg'],
+			template: '<div>i am Child 2  {{msg}}, FE</div>'
+		});
+		var Parent = Vue.extend({
+			template: '<div><p>i am parent</p><br/><i-child msg="hello"></i-child><child :msg="pmsg"></child></div>',
+			data: function (){
+				return {'pmsg': "你好"}
+			},	
+			components: {
+				'child': {
+					props: ['msg'],
+					template : '<p>i am Child {{msg}}，FE</p>',
+					replace: true
+				},
+				'i-child': Child
+			}
+		});
+
+
+		new Vue({
+			el: "#example",
+			data: function() {
+				return {
+					info: {
+						name: "加加加"
+					}
+				}
+			},
+			components: {
+				'local-component': Parent,
+				'b-child': {
+					props: ['msg'],
+					template: '<div>{{msg.name}}， 您好！</div>'
+				}
+			}
+		});
+
+	</script>
+</html>
