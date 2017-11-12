@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<title>vue基础----混合</title>
+		<script src="https://unpkg.com/vue"></script>
+	</head>
+	<body>
+
+		<div id="example">
+			<h1>component mixin</h1>
+			<my-component>
+			</my-component>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+
+		
+		var myMixin = {
+			methods: {
+				foo: function () {
+					console.log('foo');
+				},
+				conf: function () {
+					console.log('mixin conf');
+					this.from = 'mixiin';
+				}
+			}
+		};
+
+		var myComponent = Vue.extend({
+			mixins: [myMixin],
+			data: function () {
+				return {
+					from: 'sdf'
+				}
+			},
+			template: '<h1>hellw~ {{from}}</h1>',
+			methods: {
+				bar: function () {
+					console.log('bar');
+				},
+				conf: function () {
+					console.log ('self conf');
+					this.from = 'self';
+				}
+			}
+		});
+
+		var parent = new Vue({
+			el: "#example",
+			components: {
+				'my-component': myComponent
+			}
+		});
+
+		var vm = new myComponent();
+		console.log(vm.foo());
+		console.log(vm.bar());
+		console.log(vm.conf());
+
+	</script>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<title>vue基础----动态组件</title>
+		<script src="https://unpkg.com/vue"></script>
+	</head>
+	<style type="text/css">
+		/*.fade-transition{
+			transition: opacity .3s ease;
+		}
+		.fade-inter, .fade-leave{
+			opacity: 0;
+		}*/
+	</style>
+	<body>
+
+		<div id="example">
+			<h1>动态组件</h1>
+			<p>
+				<input type="radio" id="one" value="fast" v-model="currentView">
+				<label for="one">fast</label>
+			</p>
+			<p>
+				<input type="radio" id="two" value="bus" v-model="currentView">
+				<label for="two">bus</label>
+			</p>
+			<p>
+				<input type="radio" id="three" value="business" v-model="currentView">
+				<label for="three">business</label>
+			</p>
+			<!-- <template id="fast">
+				<div>I am fast</div>
+			</template>
+			<template id="bus">
+				<div>I am bus</div>
+			</template>
+			<template id="business">
+				<div>I am business</div>
+			</template> -->
+			<component :is="currentView">
+				<!-- 组件在vm.currentView发生改变是时改变 -->
+			</component>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+
+		
+		var fast = Vue.extend({
+			// template : "#fast",
+			template : "<div>I am fast</div>",
+			replace: true
+		});
+		var bus = Vue.extend({
+			// template : "#bus",
+			template : "<div>I am bus</div>",
+			replace: true
+		});
+		var business = Vue.extend({
+			// template : "#business",
+			template : "<div>I am business</div>",
+			replace : true
+		});
+
+		new Vue({
+			el: "#example",
+			data: {
+				currentView : "fast"
+			},
+			components: {
+				"fast": fast,
+				"bus" : bus,
+				"business" : business
+			}
+		});
+
+
+	</script>
+</html>
