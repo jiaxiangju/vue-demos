@@ -34,6 +34,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
+    // UglifyJsPlugin是将打包后的js文件的空行及注释去掉
     new UglifyJsPlugin({
       uglifyOptions: {
         compress: {
@@ -132,7 +133,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks (module) {
-        // any required modules inside node_modules are extracted to vendor
+        // any required modules inside node_modules are extracted to vendor  第三方依赖库
         return (
           module.resource &&
           /\.js$/.test(module.resource) &&
